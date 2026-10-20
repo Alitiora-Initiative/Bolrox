@@ -2,12 +2,23 @@
 
 **Autonomous Quantitative and Discretionary-Style Forex Analyst**
 
-BOLOROX is a free, open-source pipeline that analyzes currency pairs and gold (XAUUSD), runs a wide battery of technical, intermarket, macro, positioning and sentiment analyses, and produces:
+BOLOROX is a free, open-source pipeline that analyzes currency pairs and gold (XAUUSD), runs technical, intermarket, macro, positioning and sentiment analyses, and produces:
 
-1. A ~1,000-word Markdown report
-2. Concrete trade signals with entry, stop loss (SL), take profit (TP) levels, stated probability, risk-to-reward, and invalidation conditions
+1. A ~1,000-word Markdown report  
+2. Concrete trade signals with entry, SL, TP levels, probability, R:R, and invalidation — or a clear **no-trade** decision
 
-It thinks like a **risk manager first** and a trader second. The edge is discipline: only recommend a trade when independent evidence lines up. No-trade is a valid and often correct output.
+It thinks like a **risk manager first** and a trader second.
+
+> **Fork note:** This is a maintained fork of [Alitiora-Initiative/Bolrox](https://github.com/Alitiora-Initiative/Bolrox) with import fixes, CLI improvements, and a multipage marketing website under `website/`.
+
+## Website
+
+A modern dark multipage site lives in `website/`:
+
+- Home · Features · How it Works · Docs  
+- Responsive, gradient accents, mobile nav
+
+To deploy to Vercel: set **Root Directory** to `website` and deploy the `main` branch (or connect this repo in the Vercel dashboard).
 
 ## Default Instrument Universe
 
@@ -15,29 +26,34 @@ It thinks like a **risk manager first** and a trader second. The edge is discipl
 - EURUSD
 - USDJPY
 
-Extended universe (on request): GBPUSD, AUDUSD, NZDUSD, USDCAD, USDCHF, EURJPY, GBPJPY, EURGBP, XAGUSD, USOIL, DXY proxy.
+Extended (on request): GBPUSD, AUDUSD, NZDUSD, USDCAD, USDCHF, EURJPY, GBPJPY, EURGBP, XAGUSD, USOIL, DXY proxy.
 
 ## Non-Negotiable Rules
 
-- Never fabricate data. Every price, indicator, calendar event, COT figure must come from a tool call in the current run.
-- Free only. No paid APIs or credit cards required.
-- Timestamp everything. Flag stale data.
-- Compute indicators in code, never guess.
-- Risk before reward. Minimum 1.5 R:R to TP1. Positive expectancy under stated probabilities.
-- No-trade is valid when confluence is low, events are imminent, or data quality is poor.
-- Probabilities are calibrated and conservative (never >75% for a single trade).
+- Never fabricate data.
+- Free only — no paid APIs required.
+- Timestamp everything; flag stale data.
+- Compute indicators in code.
+- Risk before reward (min 1.5 R:R to TP1).
+- No-trade is valid.
+- Probabilities conservative (never >75% for a single trade).
 - Not financial advice.
 
 ## Project Layout
 
 ```
-bolorox/
-├── config.yaml          # symbols, timeframes, risk %, thresholds, timezone
-├── sources.yaml         # source registry and health
-├── .env                 # optional FRED_API_KEY only
-├── data/
-│   ├── cache.sqlite
-│   └── journal.sqlite
+Bolrox/
+├── config.yaml
+├── sources.yaml
+├── main.py
+├── requirements.txt
+├── website/           # multipage static site
+│   ├── index.html
+│   ├── features.html
+│   ├── how-it-works.html
+│   ├── docs.html
+│   ├── css/
+│   └── js/
 ├── src/
 │   ├── fetch_prices.py
 │   ├── fetch_macro.py
@@ -50,52 +66,48 @@ bolorox/
 │   ├── intermarket.py
 │   ├── confluence.py
 │   ├── trade_builder.py
-│   ├── backtest.py
 │   ├── charts.py
-│   └── report.py
-├── out/YYYY-MM-DD_SYMBOL/
-│   ├── report.md
-│   ├── signals.json
-│   ├── chart.html
-│   ├── chart.png
-│   ├── pine.txt
-│   └── run.log
+│   ├── report.py
+│   └── cache.py
 ├── tests/
-└── main.py
+└── out/               # generated reports (gitignored)
 ```
 
 ## Quick Start
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-# Optional: create .env with FRED_API_KEY=your_free_key
+# Optional: .env with FRED_API_KEY=your_free_key
+python main.py STATUS
+python main.py RUN EURUSD
 python main.py RUN ALL
 ```
 
 ## Commands
 
-- `RUN ALL` — full pipeline for default symbols
-- `RUN <SYMBOL>` — analyze one symbol
-- `QUICK <SYMBOL>` — short summary
-- `LEVELS <SYMBOL>` — key levels only
-- `NEWS` — next 72h events
-- `STATUS` — source health and journal stats
+| Command | Description |
+|---------|-------------|
+| `STATUS` | Config and readiness |
+| `RUN <SYMBOL>` | Full pipeline for one symbol |
+| `RUN ALL` | Default symbols |
+
+## Fixes in this fork
+
+- Relative imports for `src.cache` (was broken `from cache import`)
+- Missing `pandas` import in calendar fetcher
+- Argparse correctly handles `RUN ALL`
+- Tests pass with correct `atr` argument and package path
+- Multipage website + Vercel-ready `website/` folder
 
 ## Data Sources (all free)
 
-- Yahoo Finance (yfinance)
-- Stooq CSV
-- Dukascopy (optional)
-- FRED (optional free key)
-- CFTC COT public endpoint
-- Free economic calendar feeds
-- Public RSS for news/headlines
+Yahoo Finance (yfinance), Stooq CSV, CFTC COT public endpoint, optional FRED, public RSS placeholders.
 
 ## Disclaimer
 
-This is educational analysis software, not financial advice. Past performance is not indicative of future results. Always use a demo account first. Markets involve risk of loss.
+Educational analysis software, not financial advice. Past performance is not indicative of future results. Use a demo account first. Markets involve risk of loss.
 
 ---
 
