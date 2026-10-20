@@ -7,7 +7,7 @@ import yfinance as yf
 import requests
 import io
 
-from cache import get_cached, set_cached
+from .cache import get_cached, set_cached
 
 logger = logging.getLogger("bolorox.fetch_prices")
 
