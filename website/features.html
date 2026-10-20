@@ -4,66 +4,89 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Features — BOLOROX</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta name="description" content="Multi-source data, technical indicators, confluence scoring, and risk-constrained trade construction." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <div class="bg-ambient"></div>
   <div class="bg-grid"></div>
+
   <header class="nav">
-    <a href="index.html" class="logo">BOLOROX</a>
+    <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
     <nav>
       <a href="index.html">Home</a>
       <a href="features.html" class="active">Features</a>
-      <a href="how-it-works.html">How it Works</a>
+      <a href="how-it-works.html">How it works</a>
       <a href="docs.html">Docs</a>
       <a href="https://github.com/Jaymn2006/Bolrox" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu">☰</button>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
   </header>
 
   <main class="page">
-    <h1>Features</h1>
-    <p class="lead">Everything designed around evidence, not excitement.</p>
+    <div class="page-header">
+      <h1>Features</h1>
+      <p class="lead">Designed around evidence quality, not signal volume.</p>
+    </div>
 
     <div class="feature-grid">
       <div class="feature">
-        <h3>Multi-source price data</h3>
-        <p>Yahoo Finance + Stooq fallback with SQLite caching and freshness windows. Never invents prices.</p>
+        <h3>Multi-source prices</h3>
+        <p>Yahoo Finance with Stooq fallback, SQLite caching, and interval-aware freshness windows. Prices are never invented.</p>
       </div>
       <div class="feature">
         <h3>Technical battery</h3>
-        <p>EMA, ATR, RSI, MACD, ADX, Bollinger, swing structure — all computed in code.</p>
+        <p>EMA, ATR, RSI, MACD, ADX, Bollinger bands, and swing structure — computed in code on every run.</p>
       </div>
       <div class="feature">
-        <h3>Macro & intermarket</h3>
-        <p>Yields, VIX, equity proxies via free sources. Optional FRED key for richer macro.</p>
+        <h3>Macro context</h3>
+        <p>Yields, VIX, and equity proxies from free sources. Optional FRED key for deeper macro series.</p>
       </div>
       <div class="feature">
         <h3>Positioning (COT)</h3>
-        <p>CFTC Commitments of Traders net non-commercial via public endpoint.</p>
+        <p>CFTC Commitments of Traders via the public reporting endpoint for net non-commercial exposure.</p>
       </div>
       <div class="feature">
         <h3>Confluence scoring</h3>
-        <p>Weighted blocks (HTF bias, location, momentum, macro, events, sentiment) → grade A / B / WATCH / NO_TRADE.</p>
+        <p>Weighted blocks for HTF bias, location, momentum, macro, events, and sentiment → grade A / B / Watch / No-trade.</p>
       </div>
       <div class="feature">
-        <h3>Trade builder</h3>
-        <p>Hard R:R floor of 1.5, position sizing from risk %, invalidation rules, multi-TP ladder.</p>
+        <h3>Trade construction</h3>
+        <p>Hard 1.5 R:R floor, multi-target ladder, risk-based position size, and explicit invalidation text.</p>
       </div>
       <div class="feature">
         <h3>Report engine</h3>
-        <p>~1,000-word Markdown report + signals.json + optional charts.</p>
+        <p>Timestamped Markdown report (~1,000 words) plus structured <code>signals.json</code> under dated output folders.</p>
       </div>
       <div class="feature">
         <h3>Zero paid APIs</h3>
-        <p>Runs with free data only. Optional free FRED key for extra macro depth.</p>
+        <p>Core pipeline runs on free public data. No credit card required for baseline operation.</p>
       </div>
     </div>
   </main>
 
   <footer class="footer">
-    <p>Educational analysis only. Not financial advice.</p>
-    <p>© 2026 BOLOROX</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+        <p>Educational analysis software. Not financial advice.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="features.html">Features</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="docs.html">Documentation</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://github.com/Jaymn2006/Bolrox" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BOLOROX</span>
+      <span>Markets involve risk of loss.</span>
+    </div>
   </footer>
   <script src="js/main.js"></script>
 </body>
