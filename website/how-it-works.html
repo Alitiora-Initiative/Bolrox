@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How it Works — BOLOROX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="nav">
+    <a href="index.html" class="logo">BOLOROX</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="how-it-works.html" class="active">How it Works</a>
+      <a href="docs.html">Docs</a>
+      <a href="https://github.com/Jaymn2006/Bolrox" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </header>
+
+  <main class="page">
+    <h1>How it Works</h1>
+    <p class="lead">A disciplined pipeline from data to decision.</p>
+
+    <ol class="pipeline">
+      <li>
+        <span class="step">1</span>
+        <div>
+          <h3>Fetch & cache</h3>
+          <p>OHLCV from Yahoo → Stooq fallback. Macro yields, COT, calendar (best-effort). SQLite cache with freshness rules.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">2</span>
+        <div>
+          <h3>Compute indicators</h3>
+          <p>EMAs, ATR, RSI, structure swings, regime proxies — all in pure code. No guessed values.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">3</span>
+        <div>
+          <h3>Confluence score</h3>
+          <p>HTF bias, location, momentum, intermarket/macro, events, positioning → 0–100 score and grade.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">4</span>
+        <div>
+          <h3>Trade construction</h3>
+          <p>Only if grade and R:R pass. Entry, SL, TP1–3, suggested lots from risk %, invalidation text.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">5</span>
+        <div>
+          <h3>Report & artifacts</h3>
+          <p>Markdown report (~1k words), signals.json, optional chart and Pine snippet. Timestamped under <code>out/YYYY-MM-DD_SYMBOL/</code>.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <strong>Non-negotiable:</strong> Never fabricate data. Risk before reward. No-trade is valid. Probabilities stay conservative.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Educational analysis only. Not financial advice.</p>
+    <p>© 2026 BOLOROX</p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
