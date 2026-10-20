@@ -3,7 +3,8 @@ import logging
 from typing import List, Dict
 from datetime import datetime, timezone, timedelta
 import requests
-from cache import get_cached, set_cached
+import pandas as pd
+from .cache import get_cached, set_cached
 
 logger = logging.getLogger("bolorox.fetch_calendar")
 
