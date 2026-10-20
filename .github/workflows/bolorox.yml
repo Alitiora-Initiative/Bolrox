@@ -56,3 +56,25 @@ jobs:
           name: bolorox-logs-${{ github.run_id }}
           path: '*.log'
           retention-days: 7
+
+      - name: Notify on completion
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "BOLOROX Run ${{ job.status }} — ${{ github.repository }}"
+          to: jaymnyon@gmail.com
+          from: BOLOROX Action <jaymnyon@gmail.com>
+          body: |
+            BOLOROX workflow finished with status: ${{ job.status }}
+            Repository: ${{ github.repository }}
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            Artifacts (reports) are attached to the run.
+            
+            Triggered by: ${{ github.event_name }}
+            Symbol input: ${{ github.event.inputs.symbol || 'ALL' }}
+        continue-on-error: true
