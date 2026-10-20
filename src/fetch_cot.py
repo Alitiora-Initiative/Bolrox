@@ -3,7 +3,7 @@ import logging
 from typing import Optional, Dict
 import requests
 import pandas as pd
-from cache import get_cached, set_cached
+from .cache import get_cached, set_cached
 
 logger = logging.getLogger("bolorox.fetch_cot")
 
