@@ -1,0 +1,55 @@
+symbols:
+  default:
+    - XAUUSD
+    - EURUSD
+    - USDJPY
+  extended:
+    - GBPUSD
+    - AUDUSD
+    - NZDUSD
+    - USDCAD
+    - USDCHF
+    - EURJPY
+    - GBPJPY
+    - EURGBP
+    - XAGUSD
+    - USOIL
+    - DXY
+
+timeframes:
+  - M15
+  - H1
+  - H4
+  - D1
+
+risk:
+  default_pct: 0.5
+  b_grade_multiplier: 0.5
+  max_open_risk_pct: 2.0
+  max_positions: 3
+
+timezone: Africa/Nairobi
+
+report:
+  target_words: 1000
+  min_words: 950
+  max_words: 1100
+
+thresholds:
+  a_grade: 75
+  b_grade: 65
+  watchlist: 55
+  min_score_gap: 10
+
+pip_sizes:
+  XAUUSD: 0.10
+  EURUSD: 0.0001
+  USDJPY: 0.01
+  GBPUSD: 0.0001
+  default: 0.0001
+
+spreads:
+  EURUSD: 1.0
+  USDJPY: 1.2
+  XAUUSD: 0.25
+  default: 2.0
