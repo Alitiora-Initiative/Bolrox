@@ -1,0 +1,58 @@
+name: BOLOROX Daily Run
+
+on:
+  schedule:
+    # 07:00 UTC ≈ London open (adjust as needed)
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      symbol:
+        description: 'Symbol to analyze (blank = RUN ALL)'
+        required: false
+        default: ''
+      command:
+        description: 'Command (RUN or STATUS)'
+        required: false
+        default: 'RUN'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run BOLOROX
+        run: |
+          if [ "${{ github.event.inputs.symbol }}" != "" ]; then
+            python main.py RUN "${{ github.event.inputs.symbol }}"
+          else
+            python main.py RUN ALL
+          fi
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bolorox-reports-${{ github.run_id }}
+          path: out/
+          retention-days: 14
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bolorox-logs-${{ github.run_id }}
+          path: '*.log'
+          retention-days: 7
