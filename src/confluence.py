@@ -1,5 +1,6 @@
-"""Confluence scoring per Section 8 of the specification."""
+"""Transparent confluence scoring for signed module strengths (-3 to +3)."""
 from typing import Dict
+
 
 WEIGHTS = {
     "htf_bias": 25,
@@ -11,18 +12,19 @@ WEIGHTS = {
     "stat_edge": 10,
 }
 
-def score_direction(modules: Dict[str, int], penalties: int = 0) -> int:
-    """
-    modules: dict of block_name -> strength (0-3, signed for direction)
-    Returns 0-100 score.
-    """
-    score = 0
+
+def score_direction(modules: Dict[str, int], penalties: int = 0, direction: str = "LONG") -> int:
+    """Score evidence aligned with LONG or SHORT on a 0-100 scale."""
+    sign = {"LONG": 1, "SHORT": -1}.get(str(direction).upper())
+    if sign is None:
+        raise ValueError("direction must be LONG or SHORT")
+    score = 0.0
     for block, weight in WEIGHTS.items():
-        strength = modules.get(block, 0)
-        # Map strength 0-3 to 0-weight
-        score += max(0, min(weight, (strength / 3.0) * weight))
-    score = max(0, min(100, score - penalties))
-    return int(score)
+        strength = max(-3.0, min(3.0, float(modules.get(block, 0))))
+        aligned_strength = max(0.0, strength * sign)
+        score += (aligned_strength / 3.0) * weight
+    return int(max(0.0, min(100.0, score - max(0, int(penalties)))))
+
 
 def grade_from_score(score: int, thresholds: dict) -> str:
     if score >= thresholds.get("a_grade", 75):

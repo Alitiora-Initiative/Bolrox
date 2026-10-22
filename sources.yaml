@@ -1,29 +1,25 @@
 sources:
-  yahoo:
-    status: unknown
-    last_success: null
-    notes: Primary free OHLCV via yfinance
+  yahoo_finance:
+    role: Primary historical OHLC and macro series
+    access: yfinance public download interface
+    limitations: May be delayed, rate-limited, unavailable, or revised; not a broker execution quote
   stooq:
-    status: unknown
-    last_success: null
-    notes: Free CSV daily/hourly fallback
-  dukascopy:
-    status: unknown
-    last_success: null
-    notes: Optional deep history
-  fred:
-    status: unknown
-    last_success: null
-    notes: Optional free key for yields and macro
-  cot:
-    status: unknown
-    last_success: null
-    notes: Public CFTC Socrata endpoint
-  calendar:
-    status: unknown
-    last_success: null
-    notes: Free ForexFactory or similar JSON feed
+    role: Daily OHLC fallback
+    access: Public CSV endpoint
+    limitations: Symbol coverage and freshness vary; intraday support is not assumed
+  tradingview_widget:
+    role: Interactive chart and visible market calendar
+    access: Official embedded Advanced Real-Time Chart widget
+    limitations: Uses TradingView's selected market feed, which can differ from Bolorox analysis data
+  cftc:
+    role: Weekly positioning context
+    access: Public CFTC Socrata JSON endpoint
+    limitations: Weekly futures positioning; not a real-time sentiment measure
+  calendar_json:
+    role: Programmatic upcoming events
+    configuration: Set BOLOROX_CALENDAR_URL to a public JSON feed
+    limitations: No feed is configured by default; absence of data is not confirmation of no event risk
   news_rss:
-    status: unknown
-    last_success: null
-    notes: Public RSS feeds for headlines only
+    role: Headlines
+    configuration: Set BOLOROX_NEWS_FEEDS to comma-separated public RSS or Atom URLs
+    limitations: Headlines are source-dependent and are not scored for sentiment

@@ -1,102 +1,72 @@
 # BOLOROX
 
-**Autonomous Quantitative and Discretionary-Style Forex Analyst**
+BOLOROX is a command-line forex and metals market-analysis tool. It fetches OHLC data, computes indicators locally, writes a source-labelled report, and exports an interactive TradingView chart. It does not connect to a broker, place orders, or connect a crypto wallet.
 
-BOLOROX is a free, open-source pipeline that analyzes currency pairs and gold (XAUUSD), runs a wide battery of technical, intermarket, macro, positioning and sentiment analyses, and produces:
+## What it produces
 
-1. A ~1,000-word Markdown report
-2. Concrete trade signals with entry, stop loss (SL), take profit (TP) levels, stated probability, risk-to-reward, and invalidation conditions
+- A Markdown report with the latest fully closed candle, feed, data age, technical state, and any optional macro, calendar, news, or CFTC context that was actually available.
+- A JSON snapshot for each run.
+- A responsive `chart.html` using TradingView's official Advanced Real-Time Chart widget. The chart and the Bolorox analysis can use different market providers, so their displayed quotes can differ. Bolorox levels are listed beside the chart; they are not drawn as TradingView lines.
+- Rule-based technical candidates when H1 and D1 trend, pullback, RSI, ADX, freshness, and level validation rules all pass. Candidates do not include a win probability.
 
-It thinks like a **risk manager first** and a trader second. The edge is discipline: only recommend a trade when independent evidence lines up. No-trade is a valid and often correct output.
+The tool does not calculate broker lot sizes or cash risk because account equity, contract specifications, and account currency are not configured. It reports the configured risk percentage only. Treat every candidate as educational analysis, verify it with your broker, and account for spreads, slippage, and event risk yourself.
 
-## Default Instrument Universe
+## Default instruments
 
-- XAUUSD (gold)
-- EURUSD
-- USDJPY
+- `XAUUSD`
+- `EURUSD`
+- `USDJPY`
 
-Extended universe (on request): GBPUSD, AUDUSD, NZDUSD, USDCAD, USDCHF, EURJPY, GBPJPY, EURGBP, XAGUSD, USOIL, DXY proxy.
+The extended list is in `config.yaml`. TradingView widget symbols are explicitly mapped in `src/charts.py`; unsupported instruments fail clearly instead of silently showing the wrong market.
 
-## Non-Negotiable Rules
+## Install
 
-- Never fabricate data. Every price, indicator, calendar event, COT figure must come from a tool call in the current run.
-- Free only. No paid APIs or credit cards required.
-- Timestamp everything. Flag stale data.
-- Compute indicators in code, never guess.
-- Risk before reward. Minimum 1.5 R:R to TP1. Positive expectancy under stated probabilities.
-- No-trade is valid when confluence is low, events are imminent, or data quality is poor.
-- Probabilities are calibrated and conservative (never >75% for a single trade).
-- Not financial advice.
+Python 3.10 or newer is required.
 
-## Project Layout
-
-```
-bolorox/
-├── config.yaml          # symbols, timeframes, risk %, thresholds, timezone
-├── sources.yaml         # source registry and health
-├── .env                 # optional FRED_API_KEY only
-├── data/
-│   ├── cache.sqlite
-│   └── journal.sqlite
-├── src/
-│   ├── fetch_prices.py
-│   ├── fetch_macro.py
-│   ├── fetch_calendar.py
-│   ├── fetch_cot.py
-│   ├── fetch_news.py
-│   ├── indicators.py
-│   ├── structure.py
-│   ├── regime.py
-│   ├── intermarket.py
-│   ├── confluence.py
-│   ├── trade_builder.py
-│   ├── backtest.py
-│   ├── charts.py
-│   └── report.py
-├── out/YYYY-MM-DD_SYMBOL/
-│   ├── report.md
-│   ├── signals.json
-│   ├── chart.html
-│   ├── chart.png
-│   ├── pine.txt
-│   └── run.log
-├── tests/
-└── main.py
-```
-
-## Quick Start
-
-```bash
+```powershell
 python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-pip install -r requirements.txt
-# Optional: create .env with FRED_API_KEY=your_free_key
-python main.py RUN ALL
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 ```
 
 ## Commands
 
-- `RUN ALL` — full pipeline for default symbols
-- `RUN <SYMBOL>` — analyze one symbol
-- `QUICK <SYMBOL>` — short summary
-- `LEVELS <SYMBOL>` — key levels only
-- `NEWS` — next 72h events
-- `STATUS` — source health and journal stats
+```powershell
+python main.py STATUS
+python main.py RUN EURUSD
+python main.py RUN ALL
+python main.py QUICK XAUUSD
+python main.py LEVELS USDJPY
+python main.py NEWS
+```
 
-## Data Sources (all free)
+Reports and charts are written under `out/YYYY-MM-DD_SYMBOL/`. Run commands from any working directory; paths are anchored to the repository.
 
-- Yahoo Finance (yfinance)
-- Stooq CSV
-- Dukascopy (optional)
-- FRED (optional free key)
-- CFTC COT public endpoint
-- Free economic calendar feeds
-- Public RSS for news/headlines
+## Data sources and limits
 
-## Disclaimer
+- Historical analysis candles and macro series: Yahoo Finance via `yfinance`, with Stooq as a daily-data fallback. Free feeds can be delayed, rate-limited, incomplete, or revised; they are not broker execution quotes.
+- Interactive chart and visible calendar: TradingView's official embedded widget. It uses TradingView's own market feed and requires an internet connection when the generated HTML is opened.
+- Weekly positioning: the public CFTC Socrata feed where a contract mapping exists.
+- Programmatic economic calendar: optional public JSON endpoint configured with `BOLOROX_CALENDAR_URL`. The endpoint must return an array of events with ISO `datetime` or `date` and `title` or `event` fields. Without it, reports say event risk is unknown.
+- RSS/Atom headlines: optional comma-separated public feed URLs in `BOLOROX_NEWS_FEEDS`. Headlines are displayed as received and are not sentiment-scored.
 
-This is educational analysis software, not financial advice. Past performance is not indicative of future results. Always use a demo account first. Markets involve risk of loss.
+For example, configure optional feeds in PowerShell for the current session:
 
----
+```powershell
+$env:BOLOROX_CALENDAR_URL = "https://example.org/events.json"
+$env:BOLOROX_NEWS_FEEDS = "https://example.org/markets.rss,https://example.net/forex.xml"
+```
 
-Built for disciplined, evidence-based analysis. Accuracy beats excitement. When in doubt, stay flat.
+No feed URL is configured by default. Do not enter wallet keys or broker credentials; this repository has no wallet or order-execution feature.
+
+## Safety and interpretation
+
+- Indicators are computed from downloaded OHLC candles; the newest incomplete candle is excluded.
+- Reports flag stale hourly data and do not produce a candidate from stale or insufficient data.
+- The technical rules are not a backtest and do not support a win-rate claim. The report deliberately does not invent probabilities.
+- No event feed means event risk is unknown, not that the calendar is clear.
+- Not financial advice. Markets involve risk of loss.
+
+## GitHub Actions
+
+The weekday workflow runs the configured analysis and stores reports and charts as artifacts. It does not email reports or require mail secrets. A workflow-dispatch run can select one configured symbol, run all defaults, or show status.

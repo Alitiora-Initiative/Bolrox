@@ -16,40 +16,33 @@ symbols:
     - USOIL
     - DXY
 
-timeframes:
-  - M15
-  - H1
-  - H4
-  - D1
-
 risk:
   default_pct: 0.5
-  b_grade_multiplier: 0.5
-  max_open_risk_pct: 2.0
-  max_positions: 3
+
+freshness:
+  max_h1_age_hours: 6
+
+rules:
+  h1_fast_ema: 50
+  h1_slow_ema: 200
+  d1_fast_ema: 20
+  d1_slow_ema: 50
+  atr_period: 14
+  rsi_period: 14
+  adx_period: 14
+  min_adx: 20
+  rsi_long:
+    - 45
+    - 68
+  rsi_short:
+    - 32
+    - 55
+  pullback_atr: 0.75
+  max_stop_atr: 2.5
+  stop_buffer_atr: 0.2
+  take_profit_r:
+    - 1.5
+    - 2.5
+    - 4.0
 
 timezone: Africa/Nairobi
-
-report:
-  target_words: 1000
-  min_words: 950
-  max_words: 1100
-
-thresholds:
-  a_grade: 75
-  b_grade: 65
-  watchlist: 55
-  min_score_gap: 10
-
-pip_sizes:
-  XAUUSD: 0.10
-  EURUSD: 0.0001
-  USDJPY: 0.01
-  GBPUSD: 0.0001
-  default: 0.0001
-
-spreads:
-  EURUSD: 1.0
-  USDJPY: 1.2
-  XAUUSD: 0.25
-  default: 2.0

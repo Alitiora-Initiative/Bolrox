@@ -1,15 +1,18 @@
-"""CFTC Commitments of Traders fetcher (public Socrata endpoint)."""
+"""CFTC Legacy futures-and-options positioning from the public Socrata endpoint."""
 import logging
 from typing import Optional, Dict
 import requests
 import pandas as pd
-from cache import get_cached, set_cached
+try:
+    from .cache import get_cached, set_cached
+except ImportError:
+    from cache import get_cached, set_cached
 
 logger = logging.getLogger("bolorox.fetch_cot")
 
 COT_URL = "https://publicreporting.cftc.gov/resource/jun7-fc8e.json"
 
-# Common contract codes (approximate; verify against latest feed)
+# CFTC contract market codes for the corresponding listed futures markets.
 CONTRACTS = {
     "EUR": "099741",
     "JPY": "097741",
@@ -22,7 +25,7 @@ CONTRACTS = {
 
 def get_cot_net(symbol: str = "EUR") -> Optional[Dict]:
     """
-    Fetch latest net non-commercial position for a symbol.
+    Fetch the latest net non-commercial position for a symbol.
     Cached 24 hours (COT is weekly).
     """
     source = "cftc"
@@ -47,15 +50,27 @@ def get_cot_net(symbol: str = "EUR") -> Optional[Dict]:
             logger.warning(f"COT HTTP {r.status_code}")
             return None
         data = r.json()
-        if not data:
+        if not data or not isinstance(data, list):
             return None
         df = pd.DataFrame(data)
-        # Keep useful columns
-        keep = [c for c in df.columns if any(x in c.lower() for x in ("report_date", "noncomm", "net", "long", "short"))]
-        if keep:
-            df = df[keep]
-        set_cached(source, symbol, "weekly", "latest", df)
-        latest = df.iloc[0].to_dict()
+        latest_row = df.iloc[0]
+        long_field, short_field = "noncomm_positions_long_all", "noncomm_positions_short_all"
+        if long_field not in df.columns or short_field not in df.columns:
+            logger.warning("COT response did not contain the expected Legacy net-position fields")
+            return None
+        long_positions = int(float(latest_row[long_field]))
+        short_positions = int(float(latest_row[short_field]))
+        latest = {
+            "report_date": str(latest_row.get("report_date_as_yyyy_mm_dd", "")),
+            "contract_market_code": code,
+            "noncommercial_long": long_positions,
+            "noncommercial_short": short_positions,
+            "net_noncommercial": long_positions - short_positions,
+            "open_interest": int(float(latest_row["open_interest_all"])) if latest_row.get("open_interest_all") else None,
+            "source": "CFTC Legacy futures-and-options combined report",
+        }
+        cache_index = pd.to_datetime(latest["report_date"], utc=True)
+        set_cached(source, symbol, "weekly", "latest", pd.DataFrame([latest], index=[cache_index]))
         logger.info(f"COT fetched for {symbol}")
         return latest
     except Exception as e:

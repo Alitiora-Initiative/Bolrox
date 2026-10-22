@@ -2,12 +2,12 @@ name: BOLOROX Daily Run
 
 on:
   schedule:
-    # 07:00 UTC ≈ London open (adjust as needed)
+    # 07:00 UTC on weekdays
     - cron: '0 7 * * 1-5'
   workflow_dispatch:
     inputs:
       symbol:
-        description: 'Symbol to analyze (blank = RUN ALL)'
+        description: 'Symbol to analyze (blank = all default symbols)'
         required: false
         default: ''
       command:
@@ -15,9 +15,13 @@ on:
         required: false
         default: 'RUN'
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,55 +30,29 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
+          cache: pip
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt
 
       - name: Run BOLOROX
+        env:
+          BOLOROX_COMMAND: ${{ github.event.inputs.command || 'RUN' }}
+          BOLOROX_SYMBOL: ${{ github.event.inputs.symbol || '' }}
         run: |
-          if [ "${{ github.event.inputs.symbol }}" != "" ]; then
-            python main.py RUN "${{ github.event.inputs.symbol }}"
+          if [ "$BOLOROX_COMMAND" = "STATUS" ]; then
+            python main.py STATUS
+          elif [ -n "$BOLOROX_SYMBOL" ]; then
+            python main.py RUN "$BOLOROX_SYMBOL"
           else
             python main.py RUN ALL
           fi
 
-      - name: Upload reports
-        uses: actions/upload-artifact@v4
+      - name: Upload reports and charts
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: bolorox-reports-${{ github.run_id }}
           path: out/
+          if-no-files-found: warn
           retention-days: 14
-
-      - name: Upload logs
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: bolorox-logs-${{ github.run_id }}
-          path: '*.log'
-          retention-days: 7
-
-      - name: Notify on completion
-        if: always()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "BOLOROX Run ${{ job.status }} — ${{ github.repository }}"
-          to: jaymnyon@gmail.com
-          from: BOLOROX Action <jaymnyon@gmail.com>
-          body: |
-            BOLOROX workflow finished with status: ${{ job.status }}
-            Repository: ${{ github.repository }}
-            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            Artifacts (reports) are attached to the run.
-            
-            Triggered by: ${{ github.event_name }}
-            Symbol input: ${{ github.event.inputs.symbol || 'ALL' }}
-        continue-on-error: true
