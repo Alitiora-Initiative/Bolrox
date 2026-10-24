@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BOLOROX — Risk-First Forex Analysis</title>
+  <meta name="description" content="Open-source quantitative forex analyst. Evidence-based signals for XAUUSD, EURUSD, USDJPY — or a clear no-trade when confluence is insufficient." />
+  <meta property="og:title" content="BOLOROX — Risk-First Forex Analysis" />
+  <meta property="og:description" content="Autonomous pipeline for disciplined FX analysis. Free data sources. Conservative risk rules." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bolorox.vercel.app" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <div class="bg-grid"></div>
+
+  <header class="nav">
+    <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="features.html">Features</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="docs.html">Docs</a>
+      <a href="https://github.com/Jaymn2006/Bolrox" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="badge"><span class="badge-dot"></span> Open source · Free data · Risk-first</div>
+      <h1>Evidence-based analysis<br /><span class="gradient-text">for disciplined traders</span></h1>
+      <p class="lead">BOLOROX combines technical structure, intermarket context, macro drivers, and positioning into a single pipeline — then outputs a structured report and trade levels only when independent evidence aligns.</p>
+      <div class="hero-cta">
+        <a href="docs.html" class="btn btn-primary btn-lg">View documentation</a>
+        <a href="how-it-works.html" class="btn btn-secondary btn-lg">See the pipeline</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="num">3+</span><span class="label">Core symbols</span></div>
+        <div class="stat"><span class="num">1.5R</span><span class="label">Min R:R to TP1</span></div>
+        <div class="stat"><span class="num">≤75%</span><span class="label">Max probability</span></div>
+        <div class="stat"><span class="num">$0</span><span class="label">Paid APIs</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Outputs</span>
+        <h2>What every run produces</h2>
+        <p>Structured artifacts designed for review — not hype.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <h3>Analysis report</h3>
+          <p>Approximately 1,000 words of Markdown covering regime, levels, confluence, and explicit invalidation conditions.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3>Trade signals</h3>
+          <p>Entry, stop, multi-target ladder, risk-to-reward, suggested size, and probability — only when thresholds are met.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3>No-trade is valid</h3>
+          <p>When confluence is weak, data is stale, or risk is asymmetric, the system stays flat. Silence is a feature.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Principles</span>
+        <h2>Non-negotiable rules</h2>
+        <p>Built for accuracy over excitement.</p>
+      </div>
+      <div class="principles">
+        <div class="principle">
+          <span class="principle-num">01</span>
+          <div>
+            <h3>Never fabricate data</h3>
+            <p>Every price, indicator, and COT figure comes from a live or cached tool call in the current run.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="principle-num">02</span>
+          <div>
+            <h3>Risk before reward</h3>
+            <p>Minimum 1.5 R:R to first target. Position size derived from defined risk percentage.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="principle-num">03</span>
+          <div>
+            <h3>Conservative probabilities</h3>
+            <p>Stated probabilities are calibrated and capped — never above 75% for a single idea.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="principle-num">04</span>
+          <div>
+            <h3>Free sources only</h3>
+            <p>Yahoo, Stooq, CFTC public feeds, optional free FRED key. No paid data required to run.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="symbols-wrap">
+        <span class="section-label">Universe</span>
+        <h2 style="font-size:1.5rem;font-weight:650;letter-spacing:-0.02em;margin-bottom:0.25rem">Default instruments</h2>
+        <p style="color:var(--text-secondary);font-size:0.95rem">Extendable via configuration.</p>
+        <div class="symbols">
+          <span class="chip primary">XAUUSD</span>
+          <span class="chip primary">EURUSD</span>
+          <span class="chip primary">USDJPY</span>
+          <span class="chip">GBPUSD</span>
+          <span class="chip">AUDUSD</span>
+          <span class="chip">XAGUSD</span>
+          <span class="chip">USOIL</span>
+          <span class="chip">DXY</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-bottom:5rem">
+      <div class="cta-panel">
+        <h2>Run locally in minutes</h2>
+        <p>Python 3.10+, one virtualenv, free dependencies.</p>
+        <pre class="code-block"><code><span class="comment"># clone & install</span>
+pip install -r requirements.txt
+
+<span class="comment"># analyze default symbols</span>
+<span class="cmd">python main.py RUN ALL</span></code></pre>
+        <a href="docs.html" class="btn btn-primary">Read the docs</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+        <p>Autonomous quantitative and discretionary-style forex analysis. Educational software only.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="features.html">Features</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="docs.html">Documentation</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://github.com/Jaymn2006/Bolrox" target="_blank" rel="noopener">GitHub repository</a>
+        <a href="https://github.com/Jaymn2006/Bolrox/blob/main/README.md" target="_blank" rel="noopener">README</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BOLOROX. Not financial advice.</span>
+      <span>Markets involve risk of loss.</span>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

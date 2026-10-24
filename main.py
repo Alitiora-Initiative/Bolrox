@@ -93,24 +93,25 @@ def main():
     args = parser.parse_args()
 
     config = load_config()
-    cmd = args.command.upper()
+    cmd = (args.command or "STATUS").upper()
+    sym = (args.symbol or "").upper()
 
     if cmd == "STATUS":
         print("BOLOROX Status")
         print(f"Default symbols: {config['symbols']['default']}")
         print("Caching: enabled (data/cache.sqlite)")
         print("Ready for: python main.py RUN EURUSD")
-    elif cmd == "RUN" and args.symbol:
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        out = Path("out") / f"{today}_{args.symbol.upper()}"
-        run_symbol(args.symbol.upper(), out)
-    elif cmd == "RUN ALL":
-        for sym in config["symbols"]["default"]:
+    elif cmd == "RUN" and sym == "ALL":
+        for s in config["symbols"]["default"]:
             today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-            out = Path("out") / f"{today}_{sym}"
-            run_symbol(sym, out)
+            out = Path("out") / f"{today}_{s}"
+            run_symbol(s, out)
+    elif cmd == "RUN" and sym:
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        out = Path("out") / f"{today}_{sym}"
+        run_symbol(sym, out)
     else:
-        print(f"Usage: python main.py STATUS | RUN EURUSD | RUN ALL")
+        print("Usage: python main.py STATUS | RUN EURUSD | RUN ALL")
 
 if __name__ == "__main__":
     main()

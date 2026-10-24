@@ -1,7 +1,7 @@
 """News headline fetcher (RSS only, no full article text)."""
 import logging
 from typing import List, Dict
-from cache import get_cached, set_cached
+from .cache import get_cached, set_cached
 
 logger = logging.getLogger("bolorox.fetch_news")
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation — BOLOROX</title>
+  <meta name="description" content="Install, commands, and output layout for the BOLOROX forex analysis pipeline." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <div class="bg-grid"></div>
+
+  <header class="nav">
+    <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="docs.html" class="active">Docs</a>
+      <a href="https://github.com/Jaymn2006/Bolrox" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+  </header>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>Documentation</h1>
+      <p class="lead">Install, run, and interpret outputs.</p>
+    </div>
+
+    <h2>Requirements</h2>
+    <p>Python 3.10 or newer. Internet access for price and positioning feeds.</p>
+
+    <h2>Install</h2>
+    <pre class="code-block"><code>git clone https://github.com/Jaymn2006/Bolrox.git
+cd Bolrox
+python -m venv .venv
+source .venv/bin/activate   <span class="comment"># Windows: .venv\Scripts\activate</span>
+pip install -r requirements.txt</code></pre>
+
+    <h2>Commands</h2>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>Command</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>python main.py STATUS</code></td><td>Show config and readiness</td></tr>
+          <tr><td><code>python main.py RUN EURUSD</code></td><td>Full pipeline for one symbol</td></tr>
+          <tr><td><code>python main.py RUN ALL</code></td><td>Default symbols (XAUUSD, EURUSD, USDJPY)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Output layout</h2>
+    <p>Each run writes under <code>out/YYYY-MM-DD_SYMBOL/</code>:</p>
+    <ul>
+      <li><code>report.md</code> — narrative analysis report</li>
+      <li><code>signals.json</code> — structured trade ideas, or an empty list</li>
+    </ul>
+
+    <h2>Optional configuration</h2>
+    <p>Create a <code>.env</code> file with a free <code>FRED_API_KEY</code> for additional macro series. Core sources remain free without it. Symbol lists, risk percentage, and grade thresholds live in <code>config.yaml</code>.</p>
+
+    <div class="callout warn">
+      <strong>Disclaimer.</strong> Educational software only. Not financial advice. Use a demo account first. Past performance does not indicate future results. Markets involve risk of loss.
+    </div>
+
+    <p style="margin-top:2rem">
+      <a href="https://github.com/Jaymn2006/Bolrox" class="btn btn-primary" target="_blank" rel="noopener">Full README on GitHub</a>
+    </p>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+        <p>Educational analysis software. Not financial advice.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="features.html">Features</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="docs.html">Documentation</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://github.com/Jaymn2006/Bolrox" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BOLOROX</span>
+      <span>Markets involve risk of loss.</span>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

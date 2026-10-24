@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How it works — BOLOROX</title>
+  <meta name="description" content="Five-stage pipeline from data fetch through confluence scoring to report generation." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <div class="bg-grid"></div>
+
+  <header class="nav">
+    <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="how-it-works.html" class="active">How it works</a>
+      <a href="docs.html">Docs</a>
+      <a href="https://github.com/Jaymn2006/Bolrox" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Open menu">☰</button>
+  </header>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>How it works</h1>
+      <p class="lead">A disciplined path from raw data to a decision — including the decision to stay flat.</p>
+    </div>
+
+    <ol class="pipeline">
+      <li>
+        <span class="step">1</span>
+        <div>
+          <h3>Fetch and cache</h3>
+          <p>OHLCV from Yahoo with Stooq fallback. Macro yields, COT, and calendar where available. SQLite cache enforces freshness by interval.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">2</span>
+        <div>
+          <h3>Compute indicators</h3>
+          <p>EMAs, ATR, RSI, swing structure, and regime proxies calculated in pure code. No guessed values.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">3</span>
+        <div>
+          <h3>Score confluence</h3>
+          <p>Higher-timeframe bias, location, momentum, intermarket and macro, events, and positioning combine into a 0–100 score and grade.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">4</span>
+        <div>
+          <h3>Construct the trade</h3>
+          <p>Only if grade and risk-reward pass. Entry, stop, TP1–3, suggested size from risk %, and invalidation language.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step">5</span>
+        <div>
+          <h3>Write artifacts</h3>
+          <p>Markdown report and <code>signals.json</code> under <code>out/YYYY-MM-DD_SYMBOL/</code>, timestamped for auditability.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <strong>Non-negotiable:</strong> Never fabricate data. Risk before reward. No-trade is a valid outcome. Probabilities remain conservative.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-mark">B</span> BOLOROX</a>
+        <p>Educational analysis software. Not financial advice.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="features.html">Features</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="docs.html">Documentation</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://github.com/Jaymn2006/Bolrox" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BOLOROX</span>
+      <span>Markets involve risk of loss.</span>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
